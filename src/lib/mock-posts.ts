@@ -87,11 +87,11 @@ const taskTitles: Record<TaskKey, string[]> = {
     "Hot Take: Directory UX",
   ],
   mediaDistribution: [
-    "Regional Partnership Expansion Announced",
-    "Quarterly Product Update Released to Press",
-    "Industry Event Participation Confirmed",
-    "Leadership Statement on Market Growth",
-    "New Service Rollout Now Live",
+    "Worldreporter 24 X 7 Launches Global Press Release Distribution Platform",
+    "Technology Company Secures $50M Series B Funding Led by Global Investors",
+    "Healthcare Innovator Announces Breakthrough in AI-Powered Diagnostics",
+    "Financial Services Firm Reports Record Quarterly Earnings, Expands Global Operations",
+    "Entertainment Giant Partnerships with Leading Streaming Platform for Content Distribution",
   ],
 };
 
@@ -106,7 +106,7 @@ const taskCategories: Record<TaskKey, string[]> = {
   org: ["Agency", "Studio", "Collective", "Partner", "Network"],
   sbm: ["Bookmarks", "Tools", "Resources", "SEO", "Research"],
   comment: ["Opinion", "Reply", "Discussion", "Feedback", "Debate"],
-  mediaDistribution: ["Business", "Technology", "Science", "Entertainment", "Industry"],
+  mediaDistribution: ["Business", "Technology", "Finance", "Healthcare", "Entertainment", "Science", "Industry"],
 };
 
 const summaryByTask: Record<TaskKey, string> = {
@@ -120,7 +120,7 @@ const summaryByTask: Record<TaskKey, string> = {
   org: "Organization spotlight and services.",
   sbm: "Curated bookmark collection entry.",
   comment: "Response post with perspective and context.",
-  mediaDistribution: "Published newsroom update with a clear summary and press-style framing.",
+  mediaDistribution: "Official press release announcement distributed to global media outlets and industry journalists.",
 };
 
 const randomFrom = (items: string[], index: number) =>
@@ -135,7 +135,8 @@ export const getMockPostsForTask = (task: TaskKey): SitePost[] => {
     const category = randomFrom(taskCategories[task], index);
     const slug = `${title}`
       .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/[^a-z0-9\s-]+/g, "-")
+      .replace(/\s+/g, "-")
       .replace(/(^-|-$)/g, "");
 
     return {
