@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowRight, Bookmark, Building2, Compass, FileText, Globe2, Image as ImageIcon, LayoutGrid, MapPin, ShieldCheck, Tag, User } from 'lucide-react'
+import { ArrowRight, BarChart3, Bookmark, Building2, Compass, FileText, Globe2, Image as ImageIcon, LayoutGrid, PenSquare, Send, ShieldCheck, Tag, User } from 'lucide-react'
 import { ContentImage } from '@/components/shared/content-image'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
@@ -300,26 +300,13 @@ function splitIntoTwoParagraphs(text: string) {
   return [t, '']
 }
 
-function getPostCategoryLabel(post: SitePost): string {
-  const content =
-    post.content && typeof post.content === 'object' ? (post.content as Record<string, unknown>) : {}
-  const cat = content.category
-  if (typeof cat === 'string' && cat.trim()) return cat.trim()
-  const tag = post.tags?.find((t) => typeof t === 'string' && t !== 'mediaDistribution' && t !== 'article')
-  if (typeof tag === 'string') return tag
-  return 'Update'
-}
-
 function EditorialHome({
   primaryTask,
   posts,
-  supportTasks,
 }: {
   primaryTask?: EnabledTask
   posts: SitePost[]
-  supportTasks: EnabledTask[]
 }) {
-  const tone = getEditorialTone()
   const defaultEditorialTask: TaskKey =
     primaryTask?.key === 'mediaDistribution' || primaryTask?.key === 'article'
       ? primaryTask.key
@@ -329,150 +316,200 @@ function EditorialHome({
     getTaskHref(resolveTaskKey((post as any).task, defaultEditorialTask), post.slug)
 
   const lead = posts[0]
-  const featuredPosts = posts.slice(1, 7)
-  const recentPosts = posts.slice(7, 13)
-
-  const headline = lead?.title || SITE_CONFIG.name
-  const summarySource = lead?.summary || SITE_CONFIG.description
-  const [bodyA, bodyB] = splitIntoTwoParagraphs(summarySource)
-  const secondParagraph = bodyB || SITE_CONFIG.tagline
+  const featuredPosts = posts.slice(1, 4)
+  const focusPosts = posts.slice(4, 9)
+  const welcomeSource = lead?.summary || SITE_CONFIG.description
+  const [welcomeA, welcomeB] = splitIntoTwoParagraphs(welcomeSource)
+  const freepikImages = [
+    'https://img.freepik.com/free-photo/businesswoman-reading-newspaper_23-2147898064.jpg',
+    'https://img.freepik.com/free-photo/business-people-working-together_23-2148824937.jpg',
+    'https://img.freepik.com/free-photo/group-diverse-people-having-business-meeting_53876-25060.jpg',
+    'https://img.freepik.com/free-photo/marketing-strategy-planning-strategy-concept_53876-42950.jpg',
+    'https://img.freepik.com/free-photo/modern-equipped-computer-lab_23-2149241213.jpg',
+  ]
+  const imageStrip = freepikImages.slice(1, 5)
 
   return (
-    <main className="bg-white text-[#1a1a1a]">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-[#1A3263] to-[#0f1f3d] text-white">
-        <div className="absolute inset-0 bg-black/20" />
-        <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-          <div className="max-w-4xl">
-            <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white/90 backdrop-blur-sm">
-              <Globe2 className="h-4 w-4" />
-              Latest Press Releases
-            </span>
-            <h1 className="mt-6 text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-              {SITE_CONFIG.name}
-            </h1>
-            <p className="mt-6 text-xl text-white/80">{SITE_CONFIG.tagline}</p>
+    <main className="bg-[#f6f6f6] text-[#171717]">
+      <section className="bg-[#ea004f] text-white">
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+            <div>
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em]">
+                <Globe2 className="h-3.5 w-3.5" />
+                Press wire distribution
+              </span>
+              <h1 className="mt-6 max-w-3xl text-4xl font-semibold tracking-[-0.04em] sm:text-5xl lg:text-6xl">
+                Reach journalists, readers, and search with wire-ready announcements.
+              </h1>
+              <p className="mt-5 max-w-2xl text-base leading-8 text-white/85 sm:text-lg">
+                {SITE_CONFIG.description}
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link href={primaryTask?.route || '/press-releases'} className="inline-flex items-center gap-2 rounded-full bg-[#121212] px-6 py-3 text-sm font-semibold text-white transition hover:bg-black">
+                  Start a release
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link href="/contact" className="inline-flex items-center gap-2 rounded-full border border-white/35 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/20">
+                  Browse newsroom
+                </Link>
+              </div>
+            </div>
+            {/* Right side Freepik image */}
+            <div className="hidden lg:block">
+              <div className="overflow-hidden rounded-2xl border border-white/20 shadow-2xl">
+                <ContentImage
+                  src="https://img.magnific.com/free-photo/medium-shot-people-business-meeting_23-2149271707.jpg"
+                  alt="Business meeting press release distribution"
+                  intrinsicWidth={800}
+                  intrinsicHeight={560}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Featured Press Release */}
-      {lead ? (
-        <section className="border-b border-gray-200">
-          <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-            <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
-              <div className="space-y-4">
-                <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-                  {getPostCategoryLabel(lead) || 'Featured'}
-                </span>
-                <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                  <Link href={postHref(lead)} className="hover:text-primary transition-colors">
-                    {lead.title}
-                  </Link>
-                </h2>
-                <div className="flex items-center gap-4 text-sm text-gray-600">
-                  <span>{new Date(lead.publishedAt || lead.createdAt || Date.now()).toLocaleDateString()}</span>
-                  <span>•</span>
-                  <span>Press Release</span>
-                </div>
-                {lead.summary && (
-                  <p className="text-lg leading-relaxed text-gray-700">{lead.summary}</p>
-                )}
-                <Link
-                  href={postHref(lead)}
-                  className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 font-semibold text-white hover:bg-primary/90 transition-colors"
-                >
-                  Read Full Release
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
+      <section className="bg-white">
+        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">How {SITE_CONFIG.name} works</h2>
+            <p className="mt-3 text-sm text-[#626262] sm:text-base">Simple workflow designed for fast publication and better visibility.</p>
+          </div>
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            {[
+              { icon: PenSquare, title: 'Prepare', text: 'Draft your release, add media, and set destination details.' },
+              { icon: Send, title: 'Distribute', text: 'Publish to your wire page and syndicate to broad channels.' },
+              { icon: BarChart3, title: 'Track', text: 'Monitor output signals, story pickup, and visibility metrics.' },
+            ].map((item) => (
+              <div key={item.title} className="rounded-2xl border border-[#ececec] bg-white p-6 shadow-sm">
+                <item.icon className="h-5 w-5 text-[#ea004f]" />
+                <h3 className="mt-4 text-xl font-semibold">{item.title}</h3>
+                <p className="mt-2 text-sm leading-7 text-[#5f5f5f]">{item.text}</p>
               </div>
-              <div className="relative aspect-[16/9] overflow-hidden rounded-xl">
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-[#ececec] bg-[#f3f3f3]">
+        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <h2 className="text-2xl font-semibold tracking-[-0.02em] sm:text-3xl">Latest press releases</h2>
+              <p className="mt-2 text-sm text-[#616161] sm:text-base">Fresh updates from the newsroom and media desk.</p>
+            </div>
+            <Link href={primaryTask?.route || '/press-releases'} className="text-sm font-semibold text-[#ea004f] hover:opacity-80">
+              View all
+            </Link>
+          </div>
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {(lead ? [lead, ...featuredPosts] : featuredPosts).slice(0, 3).map((post) => (
+              <TaskPostCard key={post.id} post={post} href={postHref(post)} taskKey={defaultEditorialTask} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white">
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+          <p className="text-center text-[11px] font-semibold uppercase tracking-[0.26em] text-[#6b6b6b]">Inside the newsroom workflow</p>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {imageStrip.map((img, index) => (
+              <div key={img} className="overflow-hidden rounded-xl border border-[#ececec] bg-[#fafafa]">
+                <div className="relative h-28">
+                  <ContentImage
+                    src={img}
+                    alt={`Freepik highlight ${index + 1}`}
+                    fill
+                    className="object-cover"
+                    intrinsicWidth={640}
+                    intrinsicHeight={420}
+                  />
+                </div>
+                <p className="px-4 py-2 text-center text-xs font-medium text-[#424242]">
+                  {['Editorial planning desk', 'Distribution operations', 'Audience analytics review', 'Media briefing session'][index] || `Newsroom visual ${index + 1}`}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#f8f8f8]">
+        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-14 sm:px-6 lg:grid-cols-[1fr_1fr] lg:px-8 lg:py-16">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#6a6a6a]">Distribution without clutter</p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">Publish once and keep your message accessible across channels.</h2>
+            <ul className="mt-6 space-y-3 text-sm leading-7 text-[#555]">
+              <li>- Clean post pages optimized for search and sharing.</li>
+              <li>- Structured release cards for better scanability.</li>
+              <li>- One central workflow for launches and updates.</li>
+            </ul>
+          </div>
+          <div className="relative overflow-hidden rounded-[1.8rem] border border-[#e8e8e8] bg-white p-3 shadow-sm">
+            <div className="grid gap-3">
+              <div className="relative h-[260px] overflow-hidden rounded-[1.1rem] sm:h-[300px]">
                 <ContentImage
-                  src={getPostImage(lead)}
-                  alt={lead.title}
+                  src={freepikImages[2]}
+                  alt={focusPosts[0]?.title || lead?.title || SITE_CONFIG.name}
                   fill
                   className="object-cover"
-                  intrinsicWidth={1280}
-                  intrinsicHeight={720}
+                  intrinsicWidth={1200}
+                  intrinsicHeight={800}
                 />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="relative h-24 overflow-hidden rounded-[0.9rem] sm:h-28">
+                  <ContentImage
+                    src={freepikImages[3]}
+                    alt="Freepik business meeting visual"
+                    fill
+                    className="object-cover"
+                    intrinsicWidth={800}
+                    intrinsicHeight={600}
+                  />
+                </div>
+                <div className="relative h-24 overflow-hidden rounded-[0.9rem] sm:h-28">
+                  <ContentImage
+                    src={freepikImages[4]}
+                    alt="Freepik office workflow visual"
+                    fill
+                    className="object-cover"
+                    intrinsicWidth={800}
+                    intrinsicHeight={600}
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </section>
-      ) : null}
+        </div>
+      </section>
 
-      {/* Featured Press Releases Grid */}
-      {featuredPosts.length > 0 && (
-        <section className="py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="mb-8">
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900">Featured Press Releases</h2>
-              <p className="mt-2 text-lg text-gray-600">
-                Stay updated with the latest company announcements and industry news.
-              </p>
-            </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {featuredPosts.map((post) => (
-                <TaskPostCard
-                  key={post.id}
-                  post={post}
-                  href={postHref(post)}
-                  taskKey={defaultEditorialTask}
-                />
-              ))}
-            </div>
+      <section className="bg-[#ea004f] py-10 text-white">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 text-center sm:px-6 lg:flex-row lg:px-8 lg:text-left">
+          <h2 className="text-2xl font-semibold tracking-[-0.02em]">Ready to put your next launch on the wire?</h2>
+          <div className="flex flex-wrap gap-3">
+            <Link href={primaryTask?.route || '/press-releases'} className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-[#ea004f]">
+              Compare plans
+            </Link>
+            <Link href="/contact" className="inline-flex items-center gap-2 rounded-full border border-white/35 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white">
+              Talk to us
+            </Link>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
-      {/* Recent Press Releases */}
-      {recentPosts.length > 0 && (
-        <section className="bg-gray-50 py-16">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="mb-8">
-              <h2 className="text-3xl font-bold tracking-tight text-gray-900">Recent Updates</h2>
-              <p className="mt-2 text-lg text-gray-600">
-                More press releases and company announcements from our newsroom.
-              </p>
-            </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {recentPosts.map((post) => (
-                <TaskPostCard
-                  key={post.id}
-                  post={post}
-                  href={postHref(post)}
-                  taskKey={defaultEditorialTask}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Call to Action */}
-      <section className="bg-primary text-white py-16">
-        <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Stay Informed with Latest Updates
-          </h2>
-          <p className="mt-4 text-xl text-white/90">
-            Get real-time press releases and company announcements delivered to your inbox.
+      <section className="bg-white">
+        <div className="mx-auto max-w-5xl px-4 py-14 text-center sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-semibold tracking-[-0.03em]">Welcome to {SITE_CONFIG.name}</h2>
+          <p className="mx-auto mt-4 max-w-4xl text-sm leading-8 text-[#4f4f4f] sm:text-base">
+            {welcomeA || SITE_CONFIG.description}
           </p>
-          <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
-            <Link
-              href={primaryTask?.route || '/press-releases'}
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-8 py-3 font-semibold text-primary hover:bg-gray-100 transition-colors"
-            >
-              View All Press Releases
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-white px-8 py-3 font-semibold text-white hover:bg-white hover:text-primary transition-colors"
-            >
-              Contact Media Relations
-            </Link>
-          </div>
+          <p className="mx-auto mt-3 max-w-4xl text-sm leading-8 text-[#4f4f4f] sm:text-base">
+            {welcomeB || SITE_CONFIG.tagline}
+          </p>
         </div>
       </section>
     </main>
@@ -626,7 +663,6 @@ export default async function HomePage() {
   ).filter(({ posts }) => posts.length)
 
   const primaryTask = enabledTasks.find((task) => task.key === recipe.primaryTask) || enabledTasks[0]
-  const supportTasks = enabledTasks.filter((task) => task.key !== primaryTask?.key)
   const listingPosts = taskFeed.find(({ task }) => task.key === 'listing')?.posts || []
   const classifiedPosts = taskFeed.find(({ task }) => task.key === 'classified')?.posts || []
   const articlePosts = taskFeed.find(({ task }) => task.key === 'article')?.posts || []
@@ -678,7 +714,7 @@ export default async function HomePage() {
         />
       ) : null}
       {productKind === 'editorial' ? (
-        <EditorialHome primaryTask={primaryTask} posts={editorialPosts} supportTasks={supportTasks} />
+        <EditorialHome primaryTask={primaryTask} posts={editorialPosts} />
       ) : null}
       {productKind === 'visual' ? (
         <VisualHome primaryTask={primaryTask} imagePosts={imagePosts} profilePosts={profilePosts} articlePosts={articlePosts} />

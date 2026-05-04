@@ -14,8 +14,9 @@ import { notFound } from 'next/navigation'
 
 export const revalidate = 300
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const post = await fetchTaskPostBySlug('mediaDistribution', params.slug)
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const post = await fetchTaskPostBySlug('mediaDistribution', slug)
   
   if (!post) {
     return {
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 
   return buildPageMetadata({
-    path: `/press-releases/${params.slug}`,
+    path: `/press-releases/${slug}`,
     title: post.title,
     description: post.summary || `Read the latest press release from ${SITE_CONFIG.name}`,
     openGraphTitle: post.title,
@@ -76,8 +77,9 @@ const relatedPosts: SitePost[] = [
   },
 ]
 
-export default async function PressReleasePage({ params }: { params: { slug: string } }) {
-  const post = await fetchTaskPostBySlug('mediaDistribution', params.slug)
+export default async function PressReleasePage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const post = await fetchTaskPostBySlug('mediaDistribution', slug)
   
   if (!post) {
     notFound()
@@ -110,51 +112,51 @@ export default async function PressReleasePage({ params }: { params: { slug: str
   ]
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-[#f6f6f6] text-[#171717]">
       <NavbarShell />
       <SchemaJsonLd data={schemaData} />
       
       <main>
         {/* Breadcrumb */}
-        <section className="border-b border-gray-200 bg-white py-4">
+        <section className="border-b border-[#ececec] bg-white py-4">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <nav className="flex items-center gap-2 text-sm">
-              <Link href="/" className="text-gray-600 hover:text-primary transition-colors">
+              <Link href="/" className="text-[#5f5f5f] transition-colors hover:text-[#ea004f]">
                 Home
               </Link>
-              <span className="text-gray-400">/</span>
-              <Link href="/press-releases" className="text-gray-600 hover:text-primary transition-colors">
+              <span className="text-[#b5b5b5]">/</span>
+              <Link href="/press-releases" className="text-[#5f5f5f] transition-colors hover:text-[#ea004f]">
                 Press Releases
               </Link>
-              <span className="text-gray-400">/</span>
-              <span className="text-gray-900 font-medium">{post.title}</span>
+              <span className="text-[#b5b5b5]">/</span>
+              <span className="font-medium text-[#1c1c1c]">{post.title}</span>
             </nav>
           </div>
         </section>
 
         {/* Article Header */}
         <article className="bg-white">
-          <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+          <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
             <div className="mb-8">
               <Link
                 href="/press-releases"
-                className="inline-flex items-center gap-2 text-gray-600 hover:text-primary transition-colors"
+                className="inline-flex items-center gap-2 text-[#5f5f5f] transition-colors hover:text-[#ea004f]"
               >
                 <ArrowLeft className="h-4 w-4" />
                 Back to Press Releases
               </Link>
             </div>
 
-            <div className="grid gap-12 lg:grid-cols-[3fr_1fr]">
+            <div className="grid gap-8 lg:grid-cols-[minmax(0,2.15fr)_minmax(280px,0.85fr)] xl:gap-10">
               {/* Main Content */}
               <div className="space-y-8">
                 {/* Title and Meta */}
                 <div>
-                  <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl lg:text-5xl">
+                  <h1 className="text-3xl font-bold tracking-tight text-[#1c1c1c] sm:text-4xl lg:text-5xl">
                     {post.title}
                   </h1>
                   
-                  <div className="mt-6 flex flex-wrap items-center gap-6 text-sm text-gray-600">
+                  <div className="mt-6 flex flex-wrap items-center gap-6 text-sm text-[#5f5f5f]">
                     <div className="flex items-center gap-2">
                       <Calendar className="h-4 w-4" />
                       <time dateTime={publishDate.toISOString()}>
@@ -172,7 +174,7 @@ export default async function PressReleasePage({ params }: { params: { slug: str
                     </div>
                     
                     <div className="flex items-center gap-2">
-                      <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+                      <span className="rounded-full bg-[#ea004f]/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-[#ea004f]">
                         Press Release
                       </span>
                     </div>
@@ -196,18 +198,18 @@ export default async function PressReleasePage({ params }: { params: { slug: str
                 {/* Article Content */}
                 <div className="prose prose-lg max-w-none">
                   {post.summary && (
-                    <div className="rounded-xl bg-gray-50 p-6 text-lg leading-relaxed text-gray-700">
+                    <div className="rounded-xl bg-[#f6f6f6] p-6 text-lg leading-relaxed text-[#5f5f5f]">
                       {post.summary}
                     </div>
                   )}
                   
                   {post.content && typeof post.content === 'object' && (post.content as any).body ? (
                     <div 
-                      className="article-content text-gray-800 leading-relaxed"
+                      className="article-content leading-relaxed text-[#303030]"
                       dangerouslySetInnerHTML={{ __html: (post.content as any).body }}
                     />
                   ) : (
-                    <div className="text-gray-800 leading-relaxed">
+                    <div className="leading-relaxed text-[#303030]">
                       <p>
                         This is a press release from {authorName}. For more information about this announcement, 
                         please contact our media relations team or visit our website for additional details.
@@ -220,40 +222,46 @@ export default async function PressReleasePage({ params }: { params: { slug: str
                 </div>
 
                 {/* Social Share */}
-                <div className="border-t border-gray-200 pt-8">
+                <div className="border-t border-[#ececec] pt-8">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-4">Share this Press Release</h3>
+                      <h3 className="mb-4 text-lg font-semibold text-[#1c1c1c]">Share this Press Release</h3>
                       <div className="flex gap-3">
-                        <button
-                          className="rounded-lg bg-blue-600 p-3 text-white hover:bg-blue-700 transition-colors"
-                          onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank')}
+                        <Link
+                          href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`${SITE_CONFIG.baseUrl}/press-releases/${post.slug}`)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="rounded-lg bg-blue-600 p-3 text-white transition-colors hover:bg-blue-700"
                         >
                           <Facebook className="h-5 w-5" />
-                        </button>
-                        <button
-                          className="rounded-lg bg-sky-500 p-3 text-white hover:bg-sky-600 transition-colors"
-                          onClick={() => window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(window.location.href)}`, '_blank')}
+                        </Link>
+                        <Link
+                          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(`${SITE_CONFIG.baseUrl}/press-releases/${post.slug}`)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="rounded-lg bg-sky-500 p-3 text-white transition-colors hover:bg-sky-600"
                         >
                           <Twitter className="h-5 w-5" />
-                        </button>
-                        <button
-                          className="rounded-lg bg-blue-700 p-3 text-white hover:bg-blue-800 transition-colors"
-                          onClick={() => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank')}
+                        </Link>
+                        <Link
+                          href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${SITE_CONFIG.baseUrl}/press-releases/${post.slug}`)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="rounded-lg bg-blue-700 p-3 text-white transition-colors hover:bg-blue-800"
                         >
                           <Linkedin className="h-5 w-5" />
-                        </button>
-                        <button
-                          className="rounded-lg bg-gray-600 p-3 text-white hover:bg-gray-700 transition-colors"
-                          onClick={() => window.location.href = `mailto:?subject=${encodeURIComponent(post.title)}&body=${encodeURIComponent(window.location.href)}`}
+                        </Link>
+                        <Link
+                          href={`mailto:?subject=${encodeURIComponent(post.title)}&body=${encodeURIComponent(`${SITE_CONFIG.baseUrl}/press-releases/${post.slug}`)}`}
+                          className="rounded-lg bg-gray-600 p-3 text-white transition-colors hover:bg-gray-700"
                         >
                           <Mail className="h-5 w-5" />
-                        </button>
+                        </Link>
                       </div>
                     </div>
                     
                     <div className="text-right">
-                      <span className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700">
+                      <span className="inline-flex items-center gap-2 rounded-full bg-[#f2f2f2] px-4 py-2 text-sm font-medium text-[#5f5f5f]">
                         <Share2 className="h-4 w-4" />
                         Share
                       </span>
@@ -265,19 +273,19 @@ export default async function PressReleasePage({ params }: { params: { slug: str
               {/* Sidebar */}
               <aside className="space-y-8">
                 {/* Quick Actions */}
-                <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+                <div className="rounded-xl border border-[#ececec] bg-white p-6 shadow-sm">
+                  <h3 className="mb-4 text-lg font-semibold text-[#1c1c1c]">Quick Actions</h3>
                   <div className="space-y-3">
                     <Link
                       href="/contact"
-                      className="flex items-center justify-between rounded-lg bg-primary p-3 text-white hover:bg-primary/90 transition-colors"
+                      className="flex items-center justify-between rounded-lg bg-[#ea004f] p-3 text-white transition-colors hover:bg-[#d00046]"
                     >
                       <span className="font-medium">Contact Media Relations</span>
                       <ArrowRight className="h-4 w-4" />
                     </Link>
                     <Link
                       href="/pricing"
-                      className="flex items-center justify-between rounded-lg border border-gray-300 bg-white p-3 text-gray-900 hover:border-primary hover:text-primary transition-colors"
+                      className="flex items-center justify-between rounded-lg border border-[#d4d4d4] bg-white p-3 text-[#1c1c1c] transition-colors hover:border-[#ea004f] hover:text-[#ea004f]"
                     >
                       <span className="font-medium">View Pricing Plans</span>
                       <ArrowRight className="h-4 w-4" />
@@ -287,13 +295,13 @@ export default async function PressReleasePage({ params }: { params: { slug: str
 
                 {/* Categories */}
                 {post.tags && post.tags.length > 0 && (
-                  <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Categories</h3>
+                  <div className="rounded-xl border border-[#ececec] bg-white p-6 shadow-sm">
+                    <h3 className="mb-4 text-lg font-semibold text-[#1c1c1c]">Categories</h3>
                     <div className="flex flex-wrap gap-2">
                       {post.tags?.map((tag: string, index: number) => (
                         <span
                           key={index}
-                          className="rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700"
+                          className="rounded-full bg-[#f2f2f2] px-3 py-1 text-sm font-medium text-[#5f5f5f]"
                         >
                           {tag}
                         </span>
@@ -303,13 +311,13 @@ export default async function PressReleasePage({ params }: { params: { slug: str
                 )}
 
                 {/* Download */}
-                <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Download</h3>
+                <div className="rounded-xl border border-[#ececec] bg-white p-6 shadow-sm">
+                  <h3 className="mb-4 text-lg font-semibold text-[#1c1c1c]">Download</h3>
                   <div className="space-y-3">
-                    <button className="w-full rounded-lg border border-gray-300 bg-white p-3 text-gray-900 hover:border-primary hover:text-primary transition-colors">
+                    <button className="w-full rounded-lg border border-[#d4d4d4] bg-white p-3 text-[#1c1c1c] transition-colors hover:border-[#ea004f] hover:text-[#ea004f]">
                       Download PDF Version
                     </button>
-                    <button className="w-full rounded-lg border border-gray-300 bg-white p-3 text-gray-900 hover:border-primary hover:text-primary transition-colors">
+                    <button className="w-full rounded-lg border border-[#d4d4d4] bg-white p-3 text-[#1c1c1c] transition-colors hover:border-[#ea004f] hover:text-[#ea004f]">
                       Download Images
                     </button>
                   </div>
@@ -320,11 +328,11 @@ export default async function PressReleasePage({ params }: { params: { slug: str
         </article>
 
         {/* Related Press Releases */}
-        <section className="bg-gray-50 py-16">
+        <section className="bg-[#f6f6f6] py-16">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mb-8">
-              <h2 className="text-3xl font-bold text-gray-900">More Press Releases</h2>
-              <p className="mt-2 text-lg text-gray-600">
+              <h2 className="text-3xl font-bold text-[#1c1c1c]">More Press Releases</h2>
+              <p className="mt-2 text-lg text-[#5f5f5f]">
                 Stay updated with more company announcements and industry news
               </p>
             </div>
@@ -343,7 +351,7 @@ export default async function PressReleasePage({ params }: { params: { slug: str
             <div className="mt-12 text-center">
               <Link
                 href="/press-releases"
-                className="inline-flex items-center gap-2 rounded-lg bg-primary px-8 py-3 font-semibold text-white hover:bg-primary/90 transition-colors"
+                className="inline-flex items-center gap-2 rounded-full bg-[#ea004f] px-8 py-3 font-semibold text-white transition-colors hover:bg-[#d00046]"
               >
                 View All Press Releases
                 <ArrowRight className="h-4 w-4" />

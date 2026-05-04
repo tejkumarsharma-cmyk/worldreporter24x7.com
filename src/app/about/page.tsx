@@ -78,7 +78,7 @@ export default function AboutPage() {
       
       <main>
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-[#1A3263] to-[#0f1f3d] text-white">
+        <section className="bg-[#ea004f] text-white">
           <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
             <div className="mx-auto max-w-4xl text-center">
               <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
@@ -92,18 +92,18 @@ export default function AboutPage() {
         </section>
 
         {/* Stats Section */}
-        <section className="py-20">
+        <section className="bg-white py-20">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {stats.map((stat, index) => {
                 const Icon = stat.icon
                 return (
-                  <div key={index} className="text-center">
-                    <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
-                      <Icon className="h-8 w-8 text-primary" />
+                  <div key={index} className="rounded-2xl border border-[#ececec] bg-[#fafafa] p-8 text-center shadow-sm">
+                    <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#ea004f]/10">
+                      <Icon className="h-8 w-8 text-[#ea004f]" />
                     </div>
-                    <div className="text-3xl font-bold text-gray-900">{stat.value}</div>
-                    <div className="mt-2 text-sm text-gray-600">{stat.label}</div>
+                    <div className="text-3xl font-bold text-[#1c1c1c]">{stat.value}</div>
+                    <div className="mt-2 text-sm text-[#666]">{stat.label}</div>
                   </div>
                 )
               })}
@@ -112,12 +112,12 @@ export default function AboutPage() {
         </section>
 
         {/* Our Story */}
-        <section className="bg-gray-50 py-20">
+        <section className="bg-[#f6f6f6] py-20">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-4xl">
-              <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Story</h2>
-                <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              <div className="mb-12 text-center">
+                <h2 className="mb-4 text-3xl font-bold text-[#1c1c1c]">Our Story</h2>
+                <p className="mx-auto max-w-3xl text-lg text-[#5f5f5f]">
                   Founded with a simple mission: to bridge the gap between organizations and the media. 
                   We believe every important story deserves to be heard, and every press release 
                   should reach its intended audience.
@@ -127,8 +127,8 @@ export default function AboutPage() {
               <div className="grid gap-8 lg:grid-cols-2">
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">The Challenge</h3>
-                    <p className="text-gray-600 leading-relaxed">
+                    <h3 className="mb-3 text-xl font-semibold text-[#1c1c1c]">The Challenge</h3>
+                    <p className="leading-relaxed text-[#5f5f5f]">
                       In today's digital landscape, getting your message heard is harder than ever. 
                       Organizations struggle to cut through the noise and reach the right journalists 
                       and media outlets at the right time.
@@ -136,8 +136,8 @@ export default function AboutPage() {
                   </div>
                   
                   <div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">Our Solution</h3>
-                    <p className="text-gray-600 leading-relaxed">
+                    <h3 className="mb-3 text-xl font-semibold text-[#1c1c1c]">Our Solution</h3>
+                    <p className="leading-relaxed text-[#5f5f5f]">
                       Worldreporter 24 X 7 provides a streamlined platform that connects your 
                       press releases directly with verified media professionals. Our intelligent distribution 
                       system ensures your announcements reach the most relevant outlets for your industry 
@@ -146,24 +146,24 @@ export default function AboutPage() {
                   </div>
                 </div>
                 
-                <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">Why Choose Us?</h3>
+                <div className="rounded-xl border border-[#ececec] bg-white p-8 shadow-sm">
+                  <h3 className="mb-4 text-xl font-semibold text-[#1c1c1c]">Why Choose Us?</h3>
                   <ul className="space-y-3">
                     <li className="flex items-start gap-3">
-                      <div className="mt-1 h-2 w-2 rounded-full bg-primary" />
-                      <span className="text-gray-600">Verified media network with global reach</span>
+                      <div className="mt-1 h-2 w-2 rounded-full bg-[#ea004f]" />
+                      <span className="text-[#5f5f5f]">Verified media network with global reach</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <div className="mt-1 h-2 w-2 rounded-full bg-primary" />
-                      <span className="text-gray-600">Real-time distribution and analytics</span>
+                      <div className="mt-1 h-2 w-2 rounded-full bg-[#ea004f]" />
+                      <span className="text-[#5f5f5f]">Real-time distribution and analytics</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <div className="mt-1 h-2 w-2 rounded-full bg-primary" />
-                      <span className="text-gray-600">Industry-specific targeting options</span>
+                      <div className="mt-1 h-2 w-2 rounded-full bg-[#ea004f]" />
+                      <span className="text-[#5f5f5f]">Industry-specific targeting options</span>
                     </li>
                     <li className="flex items-start gap-3">
-                      <div className="mt-1 h-2 w-2 rounded-full bg-primary" />
-                      <span className="text-gray-600">Dedicated customer support</span>
+                      <div className="mt-1 h-2 w-2 rounded-full bg-[#ea004f]" />
+                      <span className="text-[#5f5f5f]">Dedicated customer support</span>
                     </li>
                   </ul>
                 </div>
@@ -173,11 +173,11 @@ export default function AboutPage() {
         </section>
 
         {/* Values Section */}
-        <section className="py-20">
+        <section className="bg-white py-20">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Values</h2>
-              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <div className="mb-12 text-center">
+              <h2 className="mb-4 text-3xl font-bold text-[#1c1c1c]">Our Values</h2>
+              <p className="mx-auto max-w-3xl text-lg text-[#5f5f5f]">
                 The principles that guide everything we do
               </p>
             </div>
@@ -186,12 +186,12 @@ export default function AboutPage() {
               {values.map((value, index) => {
                 const Icon = value.icon
                 return (
-                  <div key={index} className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
-                    <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                      <Icon className="h-6 w-6 text-primary" />
+                  <div key={index} className="rounded-xl border border-[#ececec] bg-[#fafafa] p-8 shadow-sm">
+                    <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-lg bg-[#ea004f]/10">
+                      <Icon className="h-6 w-6 text-[#ea004f]" />
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-4">{value.title}</h3>
-                    <p className="text-gray-600 leading-relaxed">{value.description}</p>
+                    <h3 className="mb-4 text-xl font-semibold text-[#1c1c1c]">{value.title}</h3>
+                    <p className="leading-relaxed text-[#5f5f5f]">{value.description}</p>
                   </div>
                 )
               })}
@@ -200,27 +200,27 @@ export default function AboutPage() {
         </section>
 
         {/* Team Section */}
-        <section className="bg-gray-50 py-20">
+        <section className="bg-[#f6f6f6] py-20">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Leadership Team</h2>
-              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            <div className="mb-12 text-center">
+              <h2 className="mb-4 text-3xl font-bold text-[#1c1c1c]">Leadership Team</h2>
+              <p className="mx-auto max-w-3xl text-lg text-[#5f5f5f]">
                 Meet the experts behind Worldreporter 24 X 7
               </p>
             </div>
             
             <div className="grid gap-8 lg:grid-cols-3">
               {teamMembers.map((member, index) => (
-                <div key={index} className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
+                <div key={index} className="rounded-xl border border-[#ececec] bg-white p-8 shadow-sm">
                   <div className="text-center">
-                    <div className="mx-auto mb-6 h-20 w-20 rounded-full bg-gray-200 flex items-center justify-center">
-                      <span className="text-2xl font-bold text-gray-600">
+                    <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[#f2f2f2]">
+                      <span className="text-2xl font-bold text-[#666]">
                         {member.name.split(' ').map(n => n[0]).join('')}
                       </span>
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">{member.name}</h3>
-                    <p className="text-primary font-medium mb-4">{member.role}</p>
-                    <p className="text-gray-600 leading-relaxed">{member.description}</p>
+                    <h3 className="mb-2 text-xl font-semibold text-[#1c1c1c]">{member.name}</h3>
+                    <p className="mb-4 font-medium text-[#ea004f]">{member.role}</p>
+                    <p className="leading-relaxed text-[#5f5f5f]">{member.description}</p>
                   </div>
                 </div>
               ))}
@@ -229,7 +229,7 @@ export default function AboutPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="bg-primary text-white py-16">
+        <section className="bg-[#ea004f] py-16 text-white">
           <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
               Ready to Share Your Story?
@@ -240,14 +240,14 @@ export default function AboutPage() {
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
               <Link
                 href="/pricing"
-                className="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-8 py-3 font-semibold text-primary hover:bg-gray-100 transition-colors"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-3 font-semibold text-[#ea004f] transition-colors hover:bg-gray-100"
               >
                 View Pricing Plans
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-white px-8 py-3 font-semibold text-white hover:bg-white hover:text-primary transition-colors"
+                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-white px-8 py-3 font-semibold text-white transition-colors hover:bg-white hover:text-[#ea004f]"
               >
                 Contact Our Team
                 <ArrowRight className="h-4 w-4" />
