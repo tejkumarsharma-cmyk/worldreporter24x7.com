@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { Check, ArrowRight } from 'lucide-react'
+import { Check, ArrowRight, Globe2 } from 'lucide-react'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
 import { buildPageMetadata } from '@/lib/seo'
@@ -101,7 +101,7 @@ const faqs = [
   },
   {
     question: 'Do you offer refunds?',
-    answer: 'We offer a 30-day money-back guarantee for new customers. If you\'re not satisfied with our service, we\'ll provide a full refund.',
+    answer: "We offer a 30-day money-back guarantee for new customers. If you're not satisfied with our service, we'll provide a full refund.",
   },
   {
     question: 'How quickly will my press release be distributed?',
@@ -115,18 +115,22 @@ const faqs = [
 
 export default function PricingPage() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-[#f6f6f6] text-[#171717]">
       <NavbarShell />
-      
+
       <main>
-        {/* Hero Section */}
-        <section className="bg-gradient-to-br from-[#1A3263] to-[#0f1f3d] text-white">
+        {/* Hero Section — matches homepage #ea004f brand */}
+        <section className="bg-[#ea004f] text-white">
           <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
             <div className="mx-auto max-w-4xl text-center">
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em]">
+                <Globe2 className="h-3.5 w-3.5" />
+                Press wire distribution
+              </span>
+              <h1 className="mt-6 text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
                 Simple, Transparent Pricing
               </h1>
-              <p className="mt-6 text-xl text-white/90">
+              <p className="mt-6 text-lg text-white/85 sm:text-xl">
                 Choose the perfect plan for your press release distribution needs
               </p>
             </div>
@@ -134,55 +138,55 @@ export default function PricingPage() {
         </section>
 
         {/* Pricing Cards */}
-        <section className="py-20">
+        <section className="bg-white py-20">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid gap-8 lg:grid-cols-3">
-              {pricingPlans.map((plan, index) => (
+              {pricingPlans.map((plan) => (
                 <div
                   key={plan.name}
-                  className={`relative rounded-2xl border-2 p-8 ${
+                  className={`relative rounded-2xl border-2 p-8 transition-all duration-300 ${
                     plan.highlighted
-                      ? 'border-primary bg-primary/5 shadow-2xl scale-105'
-                      : 'border-gray-200 bg-white shadow-lg'
-                  } transition-all duration-300`}
+                      ? 'scale-105 border-[#ea004f] bg-[#fff5f8] shadow-2xl'
+                      : 'border-[#ececec] bg-white shadow-sm'
+                  }`}
                 >
                   {plan.highlighted && (
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-primary px-4 py-1 text-sm font-semibold text-white">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-[#ea004f] px-4 py-1 text-sm font-semibold text-white">
                         {plan.cta}
                       </span>
                     </div>
                   )}
-                  
+
                   <div className="text-center">
-                    <h3 className="text-2xl font-bold text-gray-900">{plan.name}</h3>
+                    <h3 className="text-2xl font-bold text-[#171717]">{plan.name}</h3>
                     <div className="mt-4">
-                      <span className="text-4xl font-bold text-gray-900">{plan.price}</span>
-                      <span className="text-gray-600">/{plan.period}</span>
+                      <span className="text-4xl font-bold text-[#171717]">{plan.price}</span>
+                      <span className="text-[#626262]">/{plan.period}</span>
                     </div>
-                    <p className="mt-4 text-gray-600">{plan.description}</p>
+                    <p className="mt-4 text-[#626262]">{plan.description}</p>
                   </div>
-                  
+
                   <ul className="mt-8 space-y-4">
                     {plan.features.map((feature, featureIndex) => (
                       <li key={featureIndex} className="flex items-start gap-3">
-                        <Check className="h-5 w-5 flex-shrink-0 text-primary" />
-                        <span className="text-gray-700">{feature}</span>
+                        <Check className="h-5 w-5 flex-shrink-0 text-[#ea004f]" />
+                        <span className="text-[#424242]">{feature}</span>
                       </li>
                     ))}
                   </ul>
-                  
+
                   <div className="mt-8">
                     <Link
                       href={plan.name === 'Premium' ? '/contact' : '/signup'}
-                      className={`block w-full rounded-lg px-6 py-3 text-center font-semibold transition-colors ${
+                      className={`block w-full rounded-full px-6 py-3 text-center font-semibold transition-colors ${
                         plan.highlighted
-                          ? 'bg-primary text-white hover:bg-primary/90'
-                          : 'border-2 border-gray-300 text-gray-900 hover:border-primary hover:text-primary'
+                          ? 'bg-[#ea004f] text-white hover:bg-[#c8003a]'
+                          : 'border-2 border-[#ececec] text-[#171717] hover:border-[#ea004f] hover:text-[#ea004f]'
                       }`}
                     >
                       {plan.name === 'Premium' ? 'Contact Sales' : 'Get Started'}
-                      <ArrowRight className="inline-block h-4 w-4 ml-2" />
+                      <ArrowRight className="ml-2 inline-block h-4 w-4" />
                     </Link>
                   </div>
                 </div>
@@ -192,21 +196,21 @@ export default function PricingPage() {
         </section>
 
         {/* Add-ons Section */}
-        <section className="bg-gray-50 py-20">
+        <section className="border-y border-[#ececec] bg-[#f3f3f3] py-20">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="text-center">
-              <h2 className="text-3xl font-bold text-gray-900">Enhance Your Distribution</h2>
-              <p className="mt-4 text-lg text-gray-600">
+              <h2 className="text-3xl font-bold text-[#171717]">Enhance Your Distribution</h2>
+              <p className="mt-4 text-lg text-[#626262]">
                 Add these services to any plan for maximum impact
               </p>
             </div>
-            
+
             <div className="mt-12 grid gap-6 md:grid-cols-3">
               {addOns.map((addOn, index) => (
-                <div key={index} className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-                  <h3 className="text-xl font-semibold text-gray-900">{addOn.name}</h3>
-                  <p className="mt-2 text-2xl font-bold text-primary">{addOn.price}</p>
-                  <p className="mt-2 text-gray-600">{addOn.description}</p>
+                <div key={index} className="rounded-xl border border-[#ececec] bg-white p-6 shadow-sm">
+                  <h3 className="text-xl font-semibold text-[#171717]">{addOn.name}</h3>
+                  <p className="mt-2 text-2xl font-bold text-[#ea004f]">{addOn.price}</p>
+                  <p className="mt-2 text-[#626262]">{addOn.description}</p>
                 </div>
               ))}
             </div>
@@ -214,46 +218,43 @@ export default function PricingPage() {
         </section>
 
         {/* FAQ Section */}
-        <section className="py-20">
+        <section className="bg-white py-20">
           <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
             <div className="text-center">
-              <h2 className="text-3xl font-bold text-gray-900">Frequently Asked Questions</h2>
-              <p className="mt-4 text-lg text-gray-600">
+              <h2 className="text-3xl font-bold text-[#171717]">Frequently Asked Questions</h2>
+              <p className="mt-4 text-lg text-[#626262]">
                 Everything you need to know about our pricing
               </p>
             </div>
-            
+
             <div className="mt-12 space-y-6">
               {faqs.map((faq, index) => (
-                <div key={index} className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-                  <h3 className="text-lg font-semibold text-gray-900">{faq.question}</h3>
-                  <p className="mt-3 text-gray-600">{faq.answer}</p>
+                <div key={index} className="rounded-xl border border-[#ececec] bg-white p-6 shadow-sm">
+                  <h3 className="text-lg font-semibold text-[#171717]">{faq.question}</h3>
+                  <p className="mt-3 text-[#626262]">{faq.answer}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="bg-primary text-white py-16">
-          <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+        {/* CTA Section — matches homepage bottom CTA band */}
+        <section className="bg-[#ea004f] py-10 text-white">
+          <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 text-center sm:px-6 lg:flex-row lg:px-8 lg:text-left">
+            <h2 className="text-2xl font-semibold tracking-[-0.02em]">
               Ready to Amplify Your Message?
             </h2>
-            <p className="mt-4 text-xl text-white/90">
-              Join thousands of companies who trust us with their press release distribution
-            </p>
-            <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
+            <div className="flex flex-wrap gap-3">
               <Link
                 href="/signup"
-                className="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-8 py-3 font-semibold text-primary hover:bg-gray-100 transition-colors"
+                className="inline-flex items-center gap-2 rounded-full bg-[#121212] px-6 py-3 text-sm font-semibold text-white transition hover:bg-black"
               >
-                Start Free Trial
+                Start a release
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-white px-8 py-3 font-semibold text-white hover:bg-white hover:text-primary transition-colors"
+                className="inline-flex items-center gap-2 rounded-full border border-white/35 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/20"
               >
                 Talk to Expert
               </Link>
